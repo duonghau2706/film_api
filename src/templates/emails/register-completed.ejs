@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Completed</title>
+</head>
+<body>
+  <div>
+    <p><%= studentName %> 様</p>
+  </div>
+  <br>
+  <div>
+    <p>薬剤師向け生涯教育プログラム「STUDY LINK」の新規アカウント登録が完了しましたので、ご連絡いたします。このたびはご登録いただき、誠にありがとうございました。 </p>
+  </div>
+  <br>
+  <div>
+    <p>▼ログイン情報</p>
+    <p>ID（登録メールアドレス）: <%= emailRegister %></p>
+    <p>パスワード: <%= passwordRegister %></p>
+    <p>※「ID」「パスワード」は大切に保管してください。 </p>
+  </div>
+  <br>
+  <div>
+    <p>下記URLよりログインし、個人負担で受講される方は、受講プランを購入した後、「講座受講」より受講を開始してください。会社負担で受講される方は、受講プランの購入の必要はありませんので、そのまま「講座受講」より受講を開始してください。 </p>
+  </div>
+  <br>
+  <div>
+    <p>▼「STUDY LINK」へのログインはコチラ</p>
+    <p><a href="<%= loginUrl %>"><%= loginUrl %></a></p>
+    <p>※ご利用案内はコチラ→<a href="<%= userGuideUrl %>"><%= userGuideUrl %></a></p>
+  </div>
+  <br>
+  <div>
+    <p>【ご注意】 </p>
+    <p>このメールはSTUDY LINKのWebサイトでお手続きいただいている方に自動でお送りしています。お心当たりのない場合、またSTUDY LINKに関するお問い合わせについては下記までご連絡ください。なお、このメールに返信いただいてもお答えできませんので、あらかじめご了承ください。 </p>
+  </div>
+  <br>
+  <%- include('footer'); -%>
+</body>
+</html>

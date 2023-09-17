@@ -1,0 +1,77 @@
+{
+  "hostname": "0.0.0.0",
+  "port": 3000,
+  "port_debug": 3002,
+  "log4js": {
+    "appenders": {
+      "application": {
+        "type": "console"
+      },
+      "system": {
+        "type": "dateFile",
+        "filename": "/var/log/telemail/system.log",
+        "pattern": ".yyyy-MM-dd",
+        "backups": 31,
+        "compress": true,
+        "maxLogSize": 10485760,
+        "layout": {
+          "type": "pattern",
+          "pattern": "%d{yyyy-MM-dd hh:mm:ss.SSS} [%p] : %m"
+        }
+      },
+      "error": {
+        "type": "dateFile",
+        "filename": "/var/log/telemail/errors.log",
+        "pattern": ".yyyy-MM-dd",
+        "backups": 31,
+        "compress": true,
+        "layout": {
+          "type": "pattern",
+          "pattern": "%d{yyyy-MM-dd hh:mm:ss.SSS} [%p] : %m"
+        }
+      }
+    },
+    "categories": {
+      "default": {
+        "appenders": ["application", "system"],
+        "level": "debug"
+      },
+      "error": {
+        "appenders": ["error"],
+        "level": "debug"
+      }
+    }
+  },
+  "jwt": {
+    "algorithm": "HS256",
+    "secret": "Amatrium#secretKey"
+  },
+  "email_server": {},
+  "schedule": {
+    "test": {
+      "frequency": "0 0 0 * * *",
+      "handler": "handlers/runTestTask"
+    }
+  },
+  "aws": {
+    "s3": {
+      "folders_generate_of_file": "HLS, MP4, Thumbnails",
+      "resolution": "720",
+      "extends_video": "m3u8"
+    }
+  },
+  "emails_admin_system": "contact@studylink.or.jp",
+  "send_mail": {
+    "prefix_url": "set-password",
+    "jiho_email": "contact@studylink.or.jp",
+    "jiho_tel": "(+84) 0123456"
+  },
+  "payment": {
+    "student_status_uri": "/student/payment/payment-status"
+  },
+  "elastic": {
+    "cloudID": "DEPLOYMENT_NAME:CLOUD_ID_DETAILS", 
+    "username": "elastic",
+    "password": "LONGPASSWORD"
+  }
+}

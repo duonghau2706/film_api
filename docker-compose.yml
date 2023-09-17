@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  # Add more containers below (nginx, postgres, etc.)
+  database:
+    image: postgres:latest
+    container_name: store
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: telemail
+    volumes:
+      - ./database:/var/lib/postgresql/data/
+    restart: always
+    ports:
+      - 5432:5432

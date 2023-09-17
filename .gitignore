@@ -1,0 +1,12 @@
+.vscode
+node_modules
+.cache
+*.log
+yarn.lock
+build
+.env
+.vs
+package-lock.json
+database
+package-lock.json
+storage

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Email</title>
+</head>
+<body>
+  <div>
+    <p>このたびは、薬剤師向け生涯教育プログラム「STUDY LINK」へのアカウント登録をお申込みいただき、誠にありがとうございます。 </p>
+    <p>以下の「登録完了用URL」より、ご登録をお願いいたします。</p>
+  </div>
+  <br>
+  <div>
+    <p>▼登録完了用URLはコチラ</p>
+    <a href="<%= confirmLink %>" target="_blank"><%= confirmLink %></a>
+  </div>
+  <br>
+  <div>
+    <p>【ご注意】</p>
+    <p>このメールはSTUDY LINKのWebサイトでお手続きいただいている方に自動でお送りしています。お心当たりのない場合、またSTUDY LINKに関するお問い合わせについては下記までご連絡ください。なお、このメールに返信いただいてもお答えできませんので、あらかじめご了承ください。 </p>
+  </div>
+  <br>
+  <%- include('footer'); -%>
+</body>
+</html>
