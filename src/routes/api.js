@@ -7,6 +7,7 @@ import CustomerResourceRouter from './customerResourceApi'
 import helperRouter from './helperApi'
 import inquiryApi from './inquiryApi'
 import msTeamsRouter from './msTeamsApi'
+import loginRouter from './loginApi'
 import sendMailRouter from './sendMailApi'
 import templateRouter from './templateApi'
 import userRouter from './userApi'
@@ -17,6 +18,7 @@ const router = express.Router()
 
 router.use('', helperRouter)
 router.use('/ms-teams', msTeamsRouter)
+router.use('/login', loginRouter)
 router.use('/template', templateRouter)
 router.use('/customer', customerRouter)
 router.use('/inquiry', inquiryApi)
