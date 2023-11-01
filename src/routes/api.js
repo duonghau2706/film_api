@@ -16,7 +16,7 @@ import salekitRouter from './salekitApi'
 
 const router = express.Router()
 
-router.use('', helperRouter)
+// router.use('', helperRouter)
 router.use('/ms-teams', msTeamsRouter)
 router.use('/login', loginRouter)
 router.use('/template', templateRouter)
