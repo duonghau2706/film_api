@@ -8,8 +8,9 @@ import log4js from '@/helpers/logger'
 import { iniCron } from '@/helpers/scheduler'
 import { connectionDB, importData } from '@/helpers/connection'
 import http from 'http'
-import { join } from 'path'
+import path, { join } from 'path'
 import session from 'express-session'
+import ejs from 'ejs'
 
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -28,7 +29,7 @@ const PORT = process.env.NODE_ENV === 'production' ? 4001 : 3000
 // const elasticsearchClient = new Client({ node: 'http://localhost:9200' })
 
 // init connect db
-// connectionDB()
+connectionDB()
 // importData()
 // config folder
 app.use('/public', express.static(join(process.cwd(), 'assets')))

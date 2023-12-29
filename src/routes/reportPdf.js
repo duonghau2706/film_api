@@ -1,7 +1,8 @@
 import pickHandler from '@/helpers/routeHandler'
 import { Router } from 'express'
+import ejs from 'ejs'
 const router = Router()
 
-router.get('/download-file', pickHandler('SharepointController@downloadFile'))
+router.post('/pdf', pickHandler('PdfController@getReport'))
 
 export default router

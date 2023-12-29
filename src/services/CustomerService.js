@@ -1368,7 +1368,6 @@ class CustomerService {
             from: 0,
           },
         })
-        console.log('results.hits', results.hits)
         const { hits } = results.hits
 
         return {

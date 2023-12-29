@@ -16,17 +16,75 @@ export default class UserController {
   constructor() {
     this.response = ResponseUtils
   }
+
+  async getUserByEmail(req, res, next) {
+    try {
+      const users = await UserService.getUserByEmail(req)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, users))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
   async get(req, res, next) {
     try {
-      const { name, email, role, currentPage, perPage } = req.query
-      const users = await UserService.get({
-        name,
-        email,
-        role,
-        currentPage,
-        perPage,
-      })
+      const users = await UserService.getUser(req?.query)
       res.status(200).json(this.response(200, Message.SUCCESS, null, users))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async createUser(req, res, next) {
+    try {
+      const users = await UserService.createUser(req?.body)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, users))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async updateUser(req, res, next) {
+    try {
+      const users = await UserService.updateUser(req?.body)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, users))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async deleteUser(req, res, next) {
+    try {
+      const users = await UserService.deleteUser(req?.body)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, users))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async getProfile(req, res, next) {
+    try {
+      const users = await UserService.getProfile(req)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, users))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async getTransactionHistories(req, res, next) {
+    try {
+      const transactionHistories = await UserService.getTransactionHistories(
+        req
+      )
+      res
+        .status(200)
+        .json(this.response(200, Message.SUCCESS, null, transactionHistories))
     } catch (error) {
       console.log(error)
       res.status(400).json(this.response(400, error.message, null))
@@ -57,88 +115,68 @@ export default class UserController {
     }
   }
 
-  async deleteById(req, res) {
-    const { id } = req.body
-    const decode = verifyToken(req)
-
-    const { error } = findByIdUserValidate({
-      id,
-    })
-
-    let bindParam = []
-
-    if (error) {
-      return res.status(400).json(this.response(400, error.message, null))
-    }
-
-    if (decode?.id === id) {
-      return res
-        .status(400)
-        .json(this.response(400, Message.MYSELF_NOT_DELETE, null))
-    }
-
-    const select = `Select * from customers where customers.person_in_charge_id = '${id}'`
-
-    const result = await sequelize.query(select, {
-      bind: bindParam,
-      type: QueryTypes.SELECT,
-    })
-
-    if (result?.length > 0) {
-      return res
-        .status(400)
-        .json(this.response(400, Message.DELETE_USER_PERSON_IN_CHARGE, null))
-    }
-
+  async updateListMovie(req, res, next) {
     try {
-      await UserService.deleteById(id)
-
-      res.status(200).json(this.response(200, Message.SUCCESS, null, null))
-    } catch (error) {
-      res
-        .status(error.statusCode)
-        .json(this.response(error.statusCode, error.message, null))
-    } finally {
-    }
-  }
-
-  async recordWorkingTime(req, res, next) {
-    const { userId, name, numberWorkHours, note, workDate } = req.body
-
-    try {
-      const decode = verifyToken(req)
-      const payload = {
-        user_id: userId,
-        name_user: name,
-        number_work_hours: numberWorkHours,
-        note,
-        work_date: workDate,
-      }
-      const user = await UserService.recordWorkingTime(payload, decode)
+      const userListMovie = await UserService.updateListMovie(req)
       res
         .status(200)
-        .json(
-          this.response(
-            200,
-            Message.SUCCESS,
-            null,
-            camelcaseKeys(user.dataValues)
-          )
-        )
+        .json(this.response(200, Message.SUCCESS, null, userListMovie))
     } catch (error) {
       console.log(error)
       res.status(400).json(this.response(400, error.message, null))
     }
   }
-  async viewAllEffortOfMember(req, res, next) {
-    const { userId, dateFilter } = req.query
 
+  async updateProfile(req, res, next) {
     try {
-      const members = await UserService.viewAllEffortOfMember({
-        userId,
-        dateFilter,
-      })
-      res.status(200).json(this.response(200, Message.SUCCESS, null, members))
+      const userProfile = await UserService.updateProfile(req)
+      res
+        .status(200)
+        .json(this.response(200, Message.SUCCESS, null, userProfile))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async updateAccount(req, res, next) {
+    try {
+      const userAccount = await UserService.updateAccount(req)
+      res
+        .status(200)
+        .json(this.response(200, Message.SUCCESS, null, userAccount))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async updateStatusMember(req, res, next) {
+    try {
+      const userAccount = await UserService.updateStatusMember(req)
+      res
+        .status(200)
+        .json(this.response(200, Message.SUCCESS, null, userAccount))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async getUserDb(req, res, next) {
+    try {
+      const userDb = await UserService.getUserDb(req)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, userDb))
+    } catch (error) {
+      console.log(error)
+      res.status(400).json(this.response(400, error.message, null))
+    }
+  }
+
+  async createNewAccount(req, res, next) {
+    try {
+      const account = await UserService.createNewAccount(req)
+      res.status(200).json(this.response(200, Message.SUCCESS, null, account))
     } catch (error) {
       console.log(error)
       res.status(400).json(this.response(400, error.message, null))

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SANSAN</title>
+    <!-- <link rel="stylesheet" href="/dt.css" /> -->
+    <style>
+      * {
+        margin: 0 20px;
+        border: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* font-size: 20px; */
+      }
+
+      /* body {
+        padding: '20px';
+      } */
+
+      header {
+        display: flex;
+        padding: 0 40px;
+        width: 1100px;
+        justify-content: space-between;
+        margin: 0px auto !important;
+        font-size: 25px !important;
+      }
+
+      .header__left {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        margin: 0;
+        padding: 0;
+        bottom: 0;
+        /* border-bottom: 2px solid red; */
+      }
+
+      .name {
+        font-weight: 900;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: '50px';
+        margin: 100px 0;
+      }
+
+      main .title {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        width: 1100px;
+        font-size: 32px !important;
+        font-weight: 900;
+        margin-bottom: 10px;
+      }
+
+      main .date {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 40px;
+        width: 1100px;
+        font-size: 23px;
+      }
+
+      footer {
+        font-size: 25px !important;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        width: 1100px;
+        padding: 0 30px;
+      }
+
+      .footer__left {
+        margin-top: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .footer__right {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .footer-title {
+        display: flex;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .footer-sig {
+        display: flex;
+        justify-content: center;
+      }
+
+      .footer-name {
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        text-align: center;
+        padding: 8px;
+        font-size: 20px; /* Tăng kích thước chữ của header */
+      }
+
+      td:nth-child(5) {
+        border: 1px solid #dddddd;
+        text-align: right;
+        padding: 8px;
+        font-size: 20px; /* Tăng kích thước chữ của header */
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      tfoot td:nth-child(2) {
+        border: 1px solid #dddddd;
+        text-align: right;
+        padding: 8px;
+        font-size: 20px; /* Tăng kích thước chữ của header */
+      }
+    </style>
+
+    <!-- <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script> -->
+  </head>
+  <body>
+    <div id="pdf-preview">
+      <header class="header">
+        <div class="header__left">
+          <div class="name">Công ty đầu tư và phát triển phim ảnh SANSAN</div>
+          <div class="address">
+            Địa chỉ: 138 Trần Bình - Mỹ Đình 2 - Nam Từ Liêm - Hà Nội
+          </div>
+          <div class="phone">SĐT: 0908283230</div>
+        </div>
+
+        <div class="header__right">Mẫu số BC: TK-DT/23CT</div>
+      </header>
+
+      <main>
+        <div class="title">THỐNG KÊ DOANH THU THEO THÀNH VIÊN</div>
+        <div class="date">Từ ngày <%=start%> đến ngày <%=end%></div>
+        <div class="table">
+          <% let totalRevenue = 0; for (const key in data) { totalRevenue +=
+          parseFloat(data[key].revenue) || 0; } %>
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>ID thành viên</th>
+                <th>Tên thành viên</th>
+                <th>Số lượng giao dịch</th>
+                <th>Số tiền thanh toán</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% let index = 1; %> <% for (const key in data) { %>
+              <tr>
+                <td><%= index %></td>
+                <td><%= data[key].user_id %></td>
+                <td><%= data[key].name %></td>
+                <td><%= data[key].number_of_trans %></td>
+                <td><%= data[key].revenue || 0 %></td>
+              </tr>
+              <% index++; %> <% } %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" style="text-align: right; font-weight: bold">
+                  Tổng cộng:
+                </td>
+                <td><%= totalRevenue %></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </main>
+
+      <footer>
+        <div class="footer__left">
+          <div class="footer-title">Người duyệt báo cáo</div>
+          <div class="footer-sig">(Ký và ghi rõ họ tên)</div>
+        </div>
+
+        <div class="footer__right">
+          <div class="footer-day">
+            Hà Nội, ngày <%=curDay%> tháng <%=curMonth%> năm <%=curYear%>
+          </div>
+          <div class="footer-title">Người lập báo cáo</div>
+          <div class="footer-sig">(Ký và ghi rõ họ tên)</div>
+          <div class="footer-name"><%=name%></div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

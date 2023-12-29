@@ -1,8 +1,10 @@
 import { Sequelize } from 'sequelize'
 import {
+  MovieModel,
   TokenModel,
   UserModel,
   CustomerModel,
+  TransactionHistoriesModel,
   GroupTemplateModel,
   TemplateModel,
   MailHistoryModel,
@@ -33,8 +35,12 @@ export const connectionDB = async () => {
   try {
     await sequelize.authenticate()
 
+    // await MovieModel.sync({ alter: true })
     // await UserModel.sync({ alter: true })
+    // await TransactionHistoriesModel.sync({ alter: true })
+
     // await TokenModel.sync({ alter: true })
+
     // await CustomerModel.sync({ alter: true })
     // await TemplateModel.sync({ alter: true })
     // await SentMailHistoryModel.sync({ alter: true })

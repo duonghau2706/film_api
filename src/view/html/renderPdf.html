@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SANSAN</title>
+    <!-- <link rel="stylesheet" href="../style/dt.css" /> -->
+    <!-- <style>
+      * {
+        margin: 0;
+        border: 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+
+      header {
+        display: flex;
+        width: 1100px;
+        padding-top: 20px;
+
+        justify-content: space-between;
+        margin: 0px auto !important;
+      }
+
+      .header__left {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .name {
+        font-weight: 600;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: '50px';
+      }
+
+      main .title {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        width: 1100px;
+        font-weight: 700;
+      }
+
+      main .date {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        width: 1100px;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        width: 1100px;
+      }
+
+      .footer__left {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .footer__right {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .footer-title {
+        font-weight: 600;
+      }
+    </style> -->
+
+    <style>
+      * {
+        margin: 0 20px;
+        border: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* font-size: 20px; */
+      }
+
+      /* body {
+        padding: '20px';
+      } */
+
+      header {
+        display: flex;
+        padding: 80px 40px;
+        width: 1100px;
+        justify-content: space-between;
+        margin: 0px auto !important;
+        font-size: 150px !important;
+      }
+
+      .header__left {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin: 0;
+        padding: 0;
+        bottom: 0;
+        /* border-bottom: 2px solid red; */
+      }
+
+      .name {
+        font-weight: 900;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        gap: '50px';
+        margin: 100px 0;
+      }
+
+      main .title {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        width: 1100px;
+        font-size: 35px !important;
+        font-weight: 900;
+        margin-bottom: 10px;
+      }
+
+      main .date {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 20px;
+        width: 1100px;
+      }
+
+      footer {
+        font-size: 25px !important;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        width: 1100px;
+        padding: 0 30px;
+      }
+
+      .footer__left {
+        margin-top: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .footer__right {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .footer-title {
+        display: flex;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .footer-sig {
+        display: flex;
+        justify-content: center;
+      }
+
+      .footer-name {
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="pdf-preview">
+      <header class="header">
+        <div class="header__left">
+          <div class="name">Công ty đầu tư và phát triển phim ảnh SANSAN</div>
+          <div class="address">
+            Địa chỉ: 138 Trần Bình - Mỹ Đình 2 - Nam Từ Liêm - Hà Nội
+          </div>
+          <div class="phone">SĐT: 0908283230</div>
+        </div>
+
+        <div class="header__right">Mẫu số BC: TK-DT/23CT</div>
+      </header>
+
+      <main>
+        <div class="title">THỐNG KÊ DOANH THU THEO THÀNH VIÊN</div>
+        <div class="date">Từ ngày 01/01/2023 đến ngày 09/01/2023</div>
+        <div class="table"></div>
+      </main>
+
+      <footer>
+        <div class="footer__left">
+          <div class="footer-title">Người duyệt báo cáo</div>
+          <div class="footer-sig">(Ký và ghi rõ họ tên)</div>
+        </div>
+
+        <div class="footer__right">
+          <div class="footer-day">Hà Nội, ngày 09 tháng 09 năm 2023</div>
+          <div class="footer-title">Người lập báo cáo</div>
+          <div class="footer-sig">(Ký và ghi rõ họ tên)</div>
+          <div class="footer-name">Dương Văn Hậu</div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Data Table</title>
+  </head>
+  <body>
+    <table id="apiDataTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          Thêm các cột khác tùy thuộc vào dữ liệu bạn nhận được từ API
+        </tr>
+      </thead>
+      <tbody>
+        mmmmm
+        Dữ liệu sẽ được điền vào đây
+      </tbody>
+    </table>
+
+    <div id="huhu">huhu</div>
+
+    <script src="./dt.js"></script>
+  </body>
+</html> -->

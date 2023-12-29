@@ -159,7 +159,7 @@ const lOGIN_TYPE = {
 //   pickHandler('MsTeamsController@signin')
 // )
 
-router.post('/auth', pickHandler('LoginController@AuthController'))
+router.post('/auth', pickHandler('AuthController@systemLogin'))
 
 // router.get('/auth/signout', function (req, res) {
 //   const logoutUri = `${msalConfig.auth.authority}/oauth2/v2.0/logout?post_logout_redirect_uri=${POST_LOGOUT_REDIRECT_URI}`

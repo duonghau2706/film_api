@@ -10,6 +10,8 @@ import { verifyTokenValidate } from '@/validations'
 // import BaseService from './BaseService'
 import { sendPasswordToMail } from '@/handlers/sendMail'
 import { signToken, verifyToken } from '@/helpers/token'
+import { sequelize } from '@/helpers/connection'
+import { QueryTypes } from 'sequelize'
 dotenv.config()
 
 const logger = log4js.getLogger()
@@ -20,69 +22,69 @@ class AuthService {
     this.userModel = UserModel
   }
 
-  async loginByMsTeams(tokenResponse) {
-    try {
-      const existedUser = await this.userModel.findOne({
-        where: {
-          email: tokenResponse.account.username,
-        },
-      })
+  // async loginByMsTeams(tokenResponse) {
+  //   try {
+  //     const existedUser = await this.userModel.findOne({
+  //       where: {
+  //         email: tokenResponse.account.username,
+  //       },
+  //     })
 
-      let user = existedUser
+  //     let user = existedUser
 
-      //cập nhật field deleted = false nếu user đã tồn tại
-      if (existedUser) {
-        const payload = {
-          data: { deleted: false },
-          option: { id: existedUser?.id },
-        }
-        const dataUpdate = await UserRepository.update(payload).then(
-          (res) => res?.[0]
-        )
-        user = dataUpdate
-      }
+  //     //cập nhật field deleted = false nếu user đã tồn tại
+  //     if (existedUser) {
+  //       const payload = {
+  //         data: { deleted: false },
+  //         option: { id: existedUser?.id },
+  //       }
+  //       const dataUpdate = await UserRepository.update(payload).then(
+  //         (res) => res?.[0]
+  //       )
+  //       user = dataUpdate
+  //     }
 
-      //Tạo user nếu chưa tồn tại
-      else {
-        user = await this.userModel.create({
-          name: tokenResponse.account.name,
-          email: tokenResponse.account.username,
-          username: tokenResponse.account.username.split('@')[0],
-        })
-      }
+  //     //Tạo user nếu chưa tồn tại
+  //     else {
+  //       user = await this.userModel.create({
+  //         name: tokenResponse.account.name,
+  //         email: tokenResponse.account.username,
+  //         username: tokenResponse.account.username.split('@')[0],
+  //       })
+  //     }
 
-      const existedToken = await this.tokenModel.findOne({
-        where: {
-          user_id: user.id,
-        },
-      })
-      const expiresIn = 60 * 60 * 24 * 15
+  //     const existedToken = await this.tokenModel.findOne({
+  //       where: {
+  //         user_id: user.id,
+  //       },
+  //     })
+  //     const expiresIn = 60 * 60 * 24 * 15
 
-      const newToken = signToken(user, expiresIn)
+  //     const newToken = signToken(user, expiresIn)
 
-      //Tạo token nếu chưa tồn tại
-      if (!existedToken) {
-        const token = await this.tokenModel.create({
-          user_id: user.id,
-          ms_teams_access_token: tokenResponse.accessToken,
-          token: newToken,
-        })
-        return token
-      }
+  //     //Tạo token nếu chưa tồn tại
+  //     if (!existedToken) {
+  //       const token = await this.tokenModel.create({
+  //         user_id: user.id,
+  //         ms_teams_access_token: tokenResponse.accessToken,
+  //         token: newToken,
+  //       })
+  //       return token
+  //     }
 
-      const payloadUpdate = {
-        data: {
-          token: newToken,
-          ms_teams_access_token: tokenResponse.accessToken,
-        },
-        option: { id: existedToken.dataValues.id },
-      }
-      const token = await TokenRepository.update(payloadUpdate)
-      return token[0]
-    } catch (error) {
-      throw error
-    }
-  }
+  //     const payloadUpdate = {
+  //       data: {
+  //         token: newToken,
+  //         ms_teams_access_token: tokenResponse.accessToken,
+  //       },
+  //       option: { id: existedToken.dataValues.id },
+  //     }
+  //     const token = await TokenRepository.update(payloadUpdate)
+  //     return token[0]
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }
 
   async getAccessToken(user) {
     try {
@@ -112,13 +114,14 @@ class AuthService {
     try {
       const existedUser = await UserRepository.findOne({
         email: email,
-        status: true,
+        // status: true,
         deleted: false,
       }).then((res) => res?.dataValues)
+
       if (
         !existedUser ||
         !existedUser.password ||
-        !bcrypt.compareSync(password, existedUser.password)
+        password != existedUser.password
       ) {
         logger.info('Wrong email or password.')
         throw {
@@ -126,13 +129,13 @@ class AuthService {
           message: Message.WRONG_EMAIL_PASSWORD,
         }
       }
-      if (!existedUser?.status) {
-        logger.info('This account inactive')
-        throw {
-          statusCode: 400,
-          message: Message.ACCC_INACTIVE,
-        }
-      }
+      // if (!existedUser?.status) {
+      //   logger.info('This account inactive')
+      //   throw {
+      //     statusCode: 400,
+      //     message: Message.ACCC_INACTIVE,
+      //   }
+      // }
 
       const qToken = await this.tokenModel.findOne({
         where: {
@@ -141,9 +144,7 @@ class AuthService {
       })
 
       const expiresIn = 60 * 60 * 24
-
       const token = signToken(existedUser, expiresIn)
-
       if (!qToken) {
         // create new a record
         const payloadNew = {
@@ -174,47 +175,47 @@ class AuthService {
   }
 
   // [Forget password]
-  async forgetPassword(email) {
-    logger.info('[Forget password]')
-    try {
-      const existedUser = await UserRepository.findOne({
-        email: email,
-        deleted: false,
-      }).then((res) => res?.dataValues)
+  // async forgetPassword(email) {
+  //   logger.info('[Forget password]')
+  //   try {
+  //     const existedUser = await UserRepository.findOne({
+  //       email: email,
+  //       deleted: false,
+  //     }).then((res) => res?.dataValues)
 
-      if (!existedUser) {
-        logger.info('Wrong email or password.')
-        throw {
-          statusCode: 400,
-          message: Message.USER_EXIST,
-        }
-      }
+  //     if (!existedUser) {
+  //       logger.info('Wrong email or password.')
+  //       throw {
+  //         statusCode: 400,
+  //         message: Message.USER_EXIST,
+  //       }
+  //     }
 
-      const password = randomPassword()
+  //     const password = randomPassword()
 
-      const payload = {
-        to: email,
-        subject: `[Asti] New password information`,
-        content: `<p>[Asti] informs you that the new password form email account : ${email}</p> <p>Account: ${email}</p> <p>New Password: ${password}</p>`,
-      }
+  //     const payload = {
+  //       to: email,
+  //       subject: `[Asti] New password information`,
+  //       content: `<p>[Asti] informs you that the new password form email account : ${email}</p> <p>Account: ${email}</p> <p>New Password: ${password}</p>`,
+  //     }
 
-      await sendPasswordToMail(payload)
-      logger.info('send password to email success')
+  //     await sendPasswordToMail(payload)
+  //     logger.info('send password to email success')
 
-      const result = await this.userModel.update(
-        { password: await bcrypt.hash(password, 10) },
-        {
-          where: {
-            email,
-          },
-        }
-      )
-      return result
-    } catch (error) {
-      logger.error('[Error Forget password]', error)
-      throw error
-    }
-  }
+  //     const result = await this.userModel.update(
+  //       { password: await bcrypt.hash(password, 10) },
+  //       {
+  //         where: {
+  //           email,
+  //         },
+  //       }
+  //     )
+  //     return result
+  //   } catch (error) {
+  //     logger.error('[Error Forget password]', error)
+  //     throw error
+  //   }
+  // }
 
   async logoutUser(req) {
     logger.info('[Logout User]')

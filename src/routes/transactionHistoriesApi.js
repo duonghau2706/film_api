@@ -3,10 +3,6 @@ import { authorization } from '@/middlewares/auth'
 import { Router } from 'express'
 const router = Router()
 
-router.post(
-  '/get-all',
-  authorization(),
-  pickHandler('DashBoardController@getAllDb')
-)
+router.post('/create', pickHandler('TransactionHistoriesController@create'))
 
 export default router

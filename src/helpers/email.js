@@ -17,18 +17,19 @@ export const sendMail = async (data) => {
 
     // initialize a transporter to send mail
     const transporter = nodemailer.createTransport({
-      host: smtpEndpoint,
-      port: port,
+      // host: smtpEndpoint,
+      // port: port,
+      service: 'gmail',
       auth: {
-        user: smtpUsername,
-        pass: smtpPassword,
+        user: 'duonghau2706@gmail.com',
+        pass: 'xykv efii pchv luf',
       },
     })
 
     // mail option, there are many other options like cc, bcc, ... you can refer to the link below
     let mailOptions = {
-      from: senderAddress,
-      to: toAddresses,
+      from: 'duonghau2706@gmail.com',
+      to: 'cuopbien123a7@gmail.com',
       subject: data.subject,
       html: data.content,
     }
